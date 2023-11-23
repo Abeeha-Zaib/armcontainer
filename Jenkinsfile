@@ -2,19 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Docker Image') {
+        stage('Update, Upgrade, and Install Python3') {
             steps {
                 script {
-                    // Build the Docker image
-                    sh 'docker build -t mypythonimage .'
-                }
-            }
-        },
-        stage('Run Python Script') {
-            steps {
-                script {
-                    // Run commands inside the ARM64 container with Python installed
-                    sh 'docker run --platform=linux/arm64/v8 mypythonimage /bin/bash -c "python3 setup_arm64.py build_ext --inplace -I ~/Python-aarch64-linux-gnu/_install3/include/python3.6/"'
+                    // Run update, upgrade, and install Python 3 commands within the ARM64 container
+                    sh 'docker run --platform=linux/arm64/v8 --rm ubuntu:latest /bin/bash -c "apt update && apt upgrade -y && apt install -y python3"'
                 }
             }
         }
