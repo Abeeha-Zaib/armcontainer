@@ -2,7 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Pull and Run ARM64 Container') {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    sh 'docker build -t mypythonimage .'
+                }
+            }
+        },
+        stage('Run Python Script') {
             steps {
                 script {
                     // Run commands inside the ARM64 container with Python installed
